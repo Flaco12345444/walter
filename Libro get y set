@@ -1,0 +1,78 @@
+class Libro:
+    #Constructor
+    def __init__(self, nombre, autor, cantidad):
+        self.nombre = nombre
+        self.autor = autor
+        self.cantidad = cantidad
+    
+    # Getter para el atributo nombre
+    def get_nombre(self):
+        return self.nombre
+    
+    # Setter para el atributo nombre
+    def set_nombre(self, nombre):
+        self.nombre = nombre
+    
+    # Getter para el atributo autor
+    def get_autor(self):
+        return self.autor
+    
+    # Setter para el atributo precio
+    def set_autor(self, autor):
+        self.autor = autor
+
+    # Getter para el atributo cantidad
+    def get_cantidad(self):
+        return self.cantidad
+    
+    # Setter para el atributo cantidad
+    def set_cantidad(self, cantidad):
+        self.cantidad = cantidad
+    
+    # ToString Retorna la información que está almacenada en los atributos del objeto
+    def __str__(self):
+        return "Nombre: {}, Autor: {}, Cantidad: {}".format(self.nombre, self.autor, self.cantidad)
+
+#Declaramos el arreglo para almacenar los productos
+arregloLibros = []
+
+#Definimos la función para agregar libros
+def agregar_libros(libro):
+    arregloLibros.append(libro)
+
+#Definimos la función para mostrar los productos
+def mostrar_informacion():
+    print("Información de los libros ingresados:")
+    for libro in arregloLibros:
+        print(libro)
+
+#Definimos la función para calcular la cantidad de libros
+def calcular_cantidad_libros():
+    cantidadTotalLibros =0
+    for libro in arregloLibros:
+         cantidadTotalLibros += libro.get_cantidad()
+    print("La cantidad de libros en la bilbioteca es: {}".format(cantidadTotalLibros))
+        
+
+#Definimos la función para solicitar los datos de los productos
+def solicitar_informacion():
+    bandera= True
+    while bandera:
+            nombre = input("Ingrese el nombre del libro (o 'S' para salir): ")
+            if nombre.lower() == 's':
+                bandera = False
+            else:    
+                autor = input("Ingrese el autor de {}: ".format(nombre))
+                cantidad = int(input("Ingrese la cantidad de libros de {}: ".format(nombre)))
+                libro = Libro(nombre, autor, cantidad)
+                agregar_libros(libro)
+
+
+#Lógica principal
+solicitar_informacion()
+mostrar_informacion()
+calcular_cantidad_libros()
+
+
+
+
