@@ -1,0 +1,79 @@
+class Producto:
+    """
+    nombre: sttring
+    cantidad: int
+    precio: double
+    
+
+    """
+    #Constructor
+    
+    def __init__(self, nombre, cantidad, precio):
+        self.nombre = nombre
+        self.cantidad = cantidad
+        self.precio = precio
+    
+    # Getter para el atributo nombre extraeer informacion
+    def get_nombre(self):
+        return self.nombre
+    
+    # Setter para el atributo nombre extrae la informacion
+    def set_nombre(self, nombre):
+        self.nombre = nombre
+    
+    # Getter para el atributo cantidad
+    def get_cantidad(self):
+        return self.cantidad
+    
+    # Setter para el atributo cantidad
+    def set_cantidad(self, cantidad):
+        self.cantidad = cantidad
+    
+    # Getter para el atributo precio
+    def get_precio(self):
+        return self.precio
+    
+    # Setter para el atributo precio
+    def set_precio(self, precio):
+        self.precio = precio
+    
+    # ToString Retorna la información que está almacenada en los atributos del objeto
+    def __str__(self):
+        return "Nombre: {}, Cantidad: {}, Precio: {}".format(self.nombre, self.cantidad, self.precio)
+
+
+
+
+#declaramos el arreglo para almacenar los productos 
+arreglarProducto = []
+
+#Definimos para agregar los productos
+def agregar_producto(producto):
+    arreglarProducto.append(producto)
+    
+#Difinimos la funciones para agregar los productos
+def mostrar_informacion():
+    print("informacion de los productos ingresados: ")
+    for productos in arreglarProducto:
+        print(productos)
+        
+#Definimos la función para solicitar los datos de los productos
+
+def solicitar_informacion():
+    bandera = True
+    while bandera:
+            nombre = input("Ingrese el nombre del producto (o 'S' para salir): ")
+            if nombre.lower() == 's':
+                bandera = False
+                
+            else:
+                cantidad = int(input("Ingrese la cantidad de {} disponible: ".format(nombre)))
+                precio = float(input("Ingrese el precio de {} por unidad: ".format(nombre)))
+                
+                producto = Producto(nombre, cantidad, precio)
+                agregar_producto(producto)
+                
+#logica principal del programa
+solicitar_informacion()
+mostrar_informacion()
+                
