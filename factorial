@@ -1,0 +1,21 @@
+
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)
+    
+def main():
+    try:
+        numero = int(input("Ingrese un numero entero para calcular su factorial: "))
+        if numero < 0:
+            print("El factorial no esta definido para numeros negativos.")
+        else:
+            resultado = factorial(numero)
+            print("El factorial de", numero, "es", resultado)
+
+    except ValueError:
+        print("Debes ingresar un numero entero valido")
+
+if __name__ == "__main__":
+    main()
