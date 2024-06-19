@@ -1,0 +1,152 @@
+
+
+class Nodo:
+    def __init__(self, valor):
+        self.valor = valor
+        self.izquierdo = None
+        self.derecho = None
+        
+class ArbolBinario:
+    def __init__(self):
+        self.raiz = None
+
+    def agregar(self, valor):
+        if self.raiz is None:
+            self.raiz = Nodo(valor)
+        else:
+            self._agregar_recursivo(valor, self.raiz)
+
+    def _agregar_recursivo(self, valor, nodo_actual):
+        if valor < nodo_actual.valor:
+            if nodo_actual.izquierdo is None:
+                nodo_actual.izquierdo = Nodo(valor)
+            else:
+                self._agregar_recursivo(valor, nodo_actual.izquierdo)
+        else:
+            if nodo_actual.derecho is None:
+                nodo_actual.derecho = Nodo(valor)
+            else:
+                self._agregar_recursivo(valor, nodo_actual.derecho)
+
+    def in_order_traversal(self):
+        self._in_order_traversal_recursivo(self.raiz)
+
+    def _in_order_traversal_recursivo(self, nodo_actual):
+        if nodo_actual is not None:
+            self._in_order_traversal_recursivo(nodo_actual.izquierdo)
+            print(nodo_actual.valor)
+            self._in_order_traversal_recursivo(nodo_actual.derecho)
+
+    
+
+    def buscar(self, valor):
+        return self._buscar(self.raiz, valor)
+
+    def _buscar(self, nodo, busqueda):
+        if nodo is None:
+            return False
+        if nodo.valor == busqueda:
+            return True
+        if busqueda < nodo.valor:
+            return self._buscar(nodo.izquierdo, busqueda)
+        else:
+            return self._buscar(nodo.derecho, busqueda)
+
+    def eliminar(self, valor):
+        self.raiz = self._eliminar_recursivo(self.raiz, valor)
+
+    def _eliminar_recursivo(self, nodo, valor):
+        if nodo is None:
+            return nodo
+        if valor < nodo.valor:
+            nodo.izquierdo = self._eliminar_recursivo(nodo.izquierdo, valor)
+        elif valor > nodo.valor:
+            nodo.derecho = self._eliminar_recursivo(nodo.derecho, valor)
+        else:
+            if nodo.izquierdo is None:
+                return nodo.derecho
+            elif nodo.derecho is None:
+                return nodo.izquierdo
+            min_larger_node = self._min_value_node(nodo.derecho)
+            nodo.valor = min_larger_node.valor
+            nodo.derecho = self._eliminar_recursivo(nodo.derecho, min_larger_node.valor)
+        return nodo
+
+    def _min_value_node(self, nodo):
+        current = nodo
+        while current.izquierdo is not None:
+            current = current.izquierdo
+        return current
+
+
+    def modificar(self, valor_viejo, valor_nuevo):
+        if self.buscar(valor_viejo):
+            self.eliminar(valor_viejo)
+            self.agregar(valor_nuevo)
+            return True
+        else:
+            return False
+    def preordenar(self):
+        return self._preorder(self.raiz)
+
+    def _preorder(self, nodo_actual):
+        if nodo_actual is None:
+            print(self.in_preorder.valor)
+            self.in_preorder(nodo_actual.izquierdo)
+            self.in_preorder(nodo_actual.derecho)
+            
+
+
+arbol = ArbolBinario()
+
+numero = 0
+opcion = 0
+
+while opcion != 8:
+
+    opcion= int(input("Digite la opción que requiera: \n"
+                      "1.Ingresar \n"
+                      "2.Mostrar \n"
+                      "3.Buscar \n" 
+                      "4.Modificar \n"
+                      "5.Eliminar \n"
+                      "6.Preorden \n"
+                      "7.Salir\n:"))
+    match opcion:
+        case 1: 
+            valor = int(input("Ingrese el valor a agregar: "))
+            arbol.agregar(valor)
+            print(f"Valor {valor} agregado.")
+        case 2:
+            arbol.in_order_traversal()
+        case 3:
+            numero= int(input("Digite el número que desea buscar:"))
+            if (arbol.buscar(numero)):
+                print("Número encontrado")
+
+            else:
+                print("El número no se encuentra en la lista")
+            
+        case 4:
+            valor_viejo = int(input("Ingrese el valor a modificar: "))
+            valor_nuevo = int(input("Ingrese el nuevo valor: "))
+            modificado = arbol.modificar(valor_viejo, valor_nuevo)
+            if modificado:
+                print(f"Valor {valor_viejo} modificado a {valor_nuevo}.")
+            else:
+                print(f"Valor {valor_viejo} no encontrado en el árbol.")
+            
+        case 5:
+            valor = int(input("Ingrese el valor a eliminar: "))
+            arbol.eliminar(valor)
+            print(f"Valor {valor} eliminado del árbol.")
+        case 6:
+            arbol.preordenar()
+        case 8:
+            print("Saliendo del programa...")
+
+        case _:
+            print ("Opción inválida")
+
+
+        
