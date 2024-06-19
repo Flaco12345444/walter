@@ -1,0 +1,66 @@
+import heapq
+
+class Tarea:
+    def __init__(self, nombre, prioridad):
+        self.nombre = nombre
+        self.prioridad = prioridad
+
+    def __lt__(self, other):
+        # Invertimos la comparación para que la prioridad más alta sea menor en el heap
+        return self.prioridad > other.prioridad
+
+class GestorTareas:
+    def __init__(self):
+        self.cola_prioridad = []
+
+    def agregar_tarea(self, nombre, prioridad):
+        tarea = Tarea(nombre, prioridad)
+        heapq.heappush(self.cola_prioridad, tarea)
+        print(f"Tarea '{nombre}' con prioridad {prioridad} agregada a la cola.")
+
+    def realizar_tarea(self):
+        if not self.cola_prioridad:
+            print("No hay tareas en la cola.")
+            return None
+        tarea = heapq.heappop(self.cola_prioridad)
+        print(f"Realizando tarea '{tarea.nombre}' con prioridad {tarea.prioridad}.")
+        return tarea.nombre
+
+    def mostrar_tareas(self):
+        if not self.cola_prioridad:
+            print("No hay tareas en la cola.")
+            return
+        print("Tareas en la cola (de mayor a menor prioridad):")
+        for tarea in sorted(self.cola_prioridad, reverse=True):
+            print(f"Tarea: {tarea.nombre}, Prioridad: {tarea.prioridad}")
+
+# Programa principal
+gestor = GestorTareas()
+opcion = 0
+
+while opcion != 4:
+    try:
+        opcion = int(input("Por favor, ingresa una opción:\n"
+                           "1. Agregar tarea\n"
+                           "2. Realizar tarea\n"
+                           "3. Mostrar tareas\n"
+                           "4. Salir\n"))
+        if opcion == 1:
+            nombre = input("Digite el nombre de la tarea: ")
+            prioridad = int(input("Digite la prioridad de la tarea (número entero): "))
+            gestor.agregar_tarea(nombre, prioridad)
+
+        elif opcion == 2:
+            gestor.realizar_tarea()
+
+        elif opcion == 3:
+            gestor.mostrar_tareas()
+
+        elif opcion == 4:
+            print("Saliendo de la aplicación.")
+
+        else:
+            print("Opción no válida. Por favor, intenta nuevamente.")
+    
+    except ValueError:
+        print("Por favor, ingresa solo números enteros para las opciones y prioridades.")
