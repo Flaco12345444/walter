@@ -1,0 +1,105 @@
+class Nodo:
+    def __init__(self, valor):
+        self.valor = valor
+        self.siguiente = None
+
+class Carro:
+    def __init__(self, placa, marca, modelo):
+        self.placa = placa
+        self.marca = marca
+        self.modelo = modelo
+    
+    def __str__(self):
+        return f"Carro: Placa {self.placa}, Marca {self.marca}, Modelo {self.modelo}"
+
+class Pila:
+    def __init__(self):
+        self.cima = None
+    
+    def esta_vacia(self):
+        return self.cima is None
+    
+    def apilar(self, valor):
+        nuevo_nodo = Nodo(valor)
+        if self.esta_vacia():
+            self.cima = nuevo_nodo
+        else:
+            nuevo_nodo.siguiente = self.cima
+            self.cima = nuevo_nodo
+    
+    def desapilar(self):
+        if self.esta_vacia():
+            print("La pila está vacía. No se puede desapilar.")
+            return None
+        valor_desapilado = self.cima.valor
+        self.cima = self.cima.siguiente
+        return valor_desapilado
+
+    def ver_cima(self):
+        if self.esta_vacia():
+            print("La pila está vacía. No hay elemento en la cima.")
+            return None
+        return self.cima.valor
+    
+    def ordenar_por_placa(self):
+        if self.esta_vacia():
+            print("La pila está vacía. No hay elementos para ordenar.")
+            return
+        
+        # Convertir la pila en una lista para facilitar el ordenamiento
+        lista_carros = []
+        while not self.esta_vacia():
+            lista_carros.append(self.desapilar())
+        
+        # Ordenar la lista por la placa de los carros
+        lista_carros.sort(key=lambda carro: carro.placa)
+        
+        # Volver a apilar los carros en la pila ordenada
+        for carro in lista_carros:
+            self.apilar(carro)
+
+def mostrar_menu():
+    print("MENU:")
+    print("1. Agregar carro")
+    print("2. Mostrar carros")
+    print("3. Ordenar carros por placa")
+    print("4. Salir")
+
+# Crear una pila para almacenar los carros
+pila_carros = Pila()
+
+# Ciclo principal del programa
+while True:
+    mostrar_menu()
+    opcion = input("Ingrese el número de la opción que desea ejecutar: ")
+
+    if opcion == "1":
+        placa = input("Ingrese la placa del carro: ")
+        marca = input("Ingrese la marca del carro: ")
+        modelo = input("Ingrese el modelo del carro: ")
+        carro_nuevo = Carro(placa, marca, modelo)
+        pila_carros.apilar(carro_nuevo)
+        print("Carro agregado exitosamente.")
+
+    elif opcion == "2":
+        print("Lista de carros:")
+        if pila_carros.esta_vacia():
+            print("No hay carros en la lista.")
+        else:
+            carros_mostrados = []
+            while not pila_carros.esta_vacia():
+                carros_mostrados.append(pila_carros.desapilar())
+            for carro in reversed(carros_mostrados):
+                print(carro)
+                pila_carros.apilar(carro)  # Volver a apilar para no perder los datos
+
+    elif opcion == "3":
+        pila_carros.ordenar_por_placa()
+        print("Carros ordenados por placa.")
+
+    elif opcion == "4":
+        print("¡Hasta luego!")
+        break
+
+    else:
+        print("Opción no válida. Por favor, seleccione una opción válida.")
