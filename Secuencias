@@ -1,0 +1,47 @@
+"""Dado un número mayor o igual a 1 imprima la secuencia 
+de enteros desde ese número hasta 1 utilizando recursividad.
+"""
+
+def imprimir_secuencia(numero):
+    if numero >= 1:
+        for i in range(1, numero + 1):
+            print(i)
+
+numero = int(input("Ingresa un número mayor o igual a 1: "))
+imprimir_secuencia(numero)
+#-------------------------------------------------------------------
+
+"""
+Implemente un método recursivo que nos diga si una cadena de
+caracteres (una única palabra) es un palíndromo.
+
+"""
+def es_palindromo(cadena):
+    # Caso base: Si la longitud de la cadena es 0 o 1, es un palíndromo
+    if len(cadena) <= 1:
+        return True
+    else:
+        # Verificar si el primer y último caracteres son iguales
+        if cadena[0] == cadena[-1]:
+            # Llamar recursivamente a la función con la subcadena
+            return es_palindromo(cadena[1:-1])
+        else:
+            return False
+cadena = input("Ingresa una palabra para verificar si es un palíndromo: ")
+if es_palindromo(cadena):
+    print(f"{cadena} es un palíndromo.")
+else:
+    print(f"{cadena} no es un palíndromo.")
+#------------------------------------------------------------------
+
+def decimal_a_binario(numero):
+    if numero > 1:
+        decimal_a_binario(numero // 2)
+    print(numero % 2, end='')
+
+# Solicitar al usuario que ingrese un número decimal
+decimal = int(input("Ingresa un número decimal: "))
+
+# Llamar a la función para imprimir el equivalente binario
+print("El equivalente binario de", decimal, "es:", end=' ')
+decimal_a_binario(decimal)
