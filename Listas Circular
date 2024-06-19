@@ -1,0 +1,163 @@
+class Nodo:
+    """
+    Clase para representar un nodo en la lista circular.
+    """
+
+    def __init__(self, dato):
+        self.dato = dato
+        self.siguiente = None
+
+    def get_dato(self):
+        return self.dato
+    
+    def set_dato(self, nuevo_dato):
+        self.dato = nuevo_dato
+
+    def get_siguiente(self):
+        return self.siguiente
+    
+    def set_siguiente(self, nuevo_siguiente):
+        self.siguiente = nuevo_siguiente
+
+
+class ListaCircular:
+    """
+    Clase para representar una lista circular.
+    """
+
+    def __init__(self):
+        self.primero = None
+        self.ultimo = None
+    
+    def get_primero(self):
+        return self.primero
+    
+    def set_primero(self, nuevo_primero):
+        self.primero = nuevo_primero
+
+    def get_ultimo(self):
+        return self.ultimo
+    
+    def set_ultimo(self, nuevo_ultimo):
+        self.ultimo = nuevo_ultimo
+
+    def es_vacia(self):
+        return self.primero is None
+    
+    def agregar(self, dato):
+        nuevo_nodo = Nodo(dato)
+        if self.es_vacia():
+            self.primero = nuevo_nodo
+            self.ultimo = nuevo_nodo
+            nuevo_nodo.siguiente = nuevo_nodo
+        else:
+            self.ultimo.siguiente = nuevo_nodo
+            self.ultimo = nuevo_nodo
+            self.ultimo.siguiente = self.primero
+
+    def mostrar(self):
+        if self.es_vacia():
+            print("Lista está vacía")
+            return
+        nodo_actual = self.primero
+        while True:
+            print(nodo_actual.dato, end=" -> ")
+            nodo_actual = nodo_actual.siguiente
+            if nodo_actual == self.primero:
+                break
+        print()
+
+    def buscar(self, valor):
+        if self.es_vacia():
+            print("Lista está vacía")
+            return False
+        nodo_actual = self.primero
+        while True:
+            if nodo_actual.get_dato() == valor:
+                print("El número está en la lista")
+                return True
+            nodo_actual = nodo_actual.get_siguiente()
+            if nodo_actual == self.primero:
+                break
+        print("El número no existe en la lista")
+        return False
+
+    def eliminar(self, dato):
+        if self.es_vacia():
+            print("Lista está vacía. No se pudo eliminar.")
+            return
+        nodo_actual = self.primero
+        nodo_anterior = None
+        while True:
+            if nodo_actual.dato == dato:
+                if nodo_actual == self.primero and nodo_actual == self.ultimo:
+                    self.primero = None
+                    self.ultimo = None
+                elif nodo_actual == self.primero:
+                    self.primero = self.primero.siguiente
+                    self.ultimo.siguiente = self.primero
+                elif nodo_actual == self.ultimo:
+                    nodo_anterior.siguiente = self.primero
+                    self.ultimo = nodo_anterior
+                else:
+                    nodo_anterior.siguiente = nodo_actual.siguiente
+                print(f"Se eliminó el nodo con el dato {dato}.")
+                return
+            nodo_anterior = nodo_actual
+            nodo_actual = nodo_actual.siguiente
+            if nodo_actual == self.primero:
+                break
+        print(f"No se encontró el dato {dato} en la lista.")
+
+    def modificar(self, dato_antiguo, dato_nuevo):
+        if self.es_vacia():
+            print("Lista está vacía. No se pudo modificar.")
+            return
+        nodo_actual = self.primero
+        while True:
+            if nodo_actual.dato == dato_antiguo:
+                nodo_actual.dato = dato_nuevo
+                print(f"Se modificó el dato {dato_antiguo} por {dato_nuevo}.")
+                return
+            nodo_actual = nodo_actual.siguiente
+            if nodo_actual == self.primero:
+                break
+        print(f"No se encontró el dato {dato_antiguo} en la lista.")
+
+
+# Programa principal
+miLista = ListaCircular()
+numero = 0
+opcion = 0
+
+while opcion != 6:
+    try:
+        opcion = int(input("Por favor, ingresa una opción:\n"
+                           "1. Ingresar.\n"
+                           "2. Mostrar.\n"
+                           "3. Buscar.\n"
+                           "4. Modificar.\n"
+                           "5. Eliminar.\n"
+                           "6. Salir.\n"))
+        if opcion == 1:
+            numero = int(input("Digite el número que desea insertar: ")) 
+            miLista.agregar(numero)
+
+        if opcion == 2:
+            miLista.mostrar()
+
+        if opcion == 3:
+            numero = int(input("Digite el número que desea buscar: "))
+            miLista.buscar(numero)
+
+        if opcion == 4:
+            dato_antiguo = int(input("Digite el número que desea modificar: "))
+            dato_nuevo = int(input("Digite el nuevo número: "))
+            miLista.modificar(dato_antiguo, dato_nuevo)
+
+        if opcion == 5:
+            numero = int(input("Digite el número que desea eliminar: "))
+            miLista.eliminar(numero)
+
+    except ValueError:
+        print("Por favor, ingresa solo números.")
